@@ -1,9 +1,8 @@
-function evaluation(norm_pred_list,gt_dir,setting_name,setting_class,legend_name)
+function evaluation(norm_pred_list,gt_dir,setting_name,setting_class,legend_name,iou_thres)
 load(gt_dir);
 if ~exist(sprintf('./plot/baselines/Val/%s/%s',setting_class,legend_name),'dir')
     mkdir(sprintf('./plot/baselines/Val/%s/%s',setting_class,legend_name));
 end
-IoU_thresh = 0.5;
 event_num = 61;
 thresh_num = 1000;
 org_pr_cruve = zeros(thresh_num,2);
@@ -31,7 +30,7 @@ for i = 1:event_num
             ignore(keep_index) = 1;
         end
         
-        [pred_recall, proposal_list] = image_evaluation(pred_info, gt_bbx, ignore, IoU_thresh);
+        [pred_recall, proposal_list] = image_evaluation(pred_info, gt_bbx, ignore, iou_thres);
         
         img_pr_info = image_pr_info(thresh_num, pred_info, proposal_list, pred_recall);
         img_pr_info_list{j} = img_pr_info;   

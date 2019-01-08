@@ -1,4 +1,4 @@
-function pred_list = read_pred(file_dir, gt_dir)
+function pred_list = read_pred(file_dir, gt_dir, score_thres)
 
 load(gt_dir);
 event_num = 61;
@@ -34,6 +34,8 @@ for i = 1:event_num
                 bbx(k,4) = raw_info(4);
                 bbx(k,5) = raw_info(5);
             end
+            ind = bbx(:,5)>=score_thres;
+            bbx = bbx(ind,:);
             [~, s_index] = sort(bbx(:,5),'descend');
             bbx_list{j} = bbx(s_index,:);
         catch

@@ -7,23 +7,28 @@ clear;
 close all;
 addpath(genpath('./plot'));
 %Please specify your prediction directory.
-pred_dir = './pred';
+pred_dir = 'result/smallNet';
+legend_name = 'smallNet';
+iou_thres = 0.5;
+score_thres = 0.0;
+
+
 gt_dir = './ground_truth/wider_face_val.mat';
 %preprocessing
-pred_list = read_pred(pred_dir,gt_dir);
+pred_list = read_pred(pred_dir,gt_dir,score_thres);
 norm_pred_list = norm_score(pred_list);
 
 %evaluate on different settings
-setting_name_list = {'easy_val';'medium_val';'hard_val'};
+%setting_name_list = {'easy_val';'medium_val';'hard_val'};
+setting_name_list = {'easy_val';'hard_val'};
 setting_class = 'setting_int';
 
 %Please specify your algorithm name.
-legend_name = 'Faceness';
 for i = 1:size(setting_name_list,1)
     fprintf('Current evaluation setting %s\n',setting_name_list{i});
     setting_name = setting_name_list{i};
     gt_dir = sprintf('./ground_truth/wider_%s.mat',setting_name);
-    evaluation(norm_pred_list,gt_dir,setting_name,setting_class,legend_name);
+    evaluation(norm_pred_list,gt_dir,setting_name,setting_class,legend_name, iou_thres);
 end
 
 fprintf('Plot pr curve under overall setting.\n');
