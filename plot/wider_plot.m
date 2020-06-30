@@ -24,7 +24,7 @@ for i = 1:size(set_list,1)
             name_list{j} = [legend_name '-' ap];
         else
             name_list{j} = [legend_name '-' ap(1:5)];
-        end       
+        end
     end
     [~,index] = sort(ap_list,'descend');
     propose = propose(index);
